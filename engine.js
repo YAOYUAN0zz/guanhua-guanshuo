@@ -8,14 +8,18 @@
       const key=normalize(input);if(lookup.has(key)&&lookup.get(key).id!==s.id)throw new Error('场景冲突:'+key);
       lookup.set(key,s);
     }}
-    return function generate(input,index=0,expanded=false){
+    return function generate(input,index=0,expanded=false,targetLength=3000){
       const raw=String(input).trim();
       if(!raw)return {text:'',kind:'empty',scene:null};
       if([...raw].length>300)return {text:'先说一件小事就好，请控制在 300 字以内。',kind:'limit',scene:null};
       const scene=lookup.get(normalize(raw));
+      if(expanded){
+        const article=root.OfficialArticle.generate(raw,targetLength);
+        return {...article,kind:scene?'matched':'topic',scene:scene?.id||null,name:scene?.name,category:scene?.category,mode:'article'};
+      }
       if(scene){
         const chosen=scene.variants[((index%scene.variants.length)+scene.variants.length)%scene.variants.length].text;
-        const text=expanded?`从${scene.name}说起\n\n${chosen}\n\n日常生活由一件件具体事情组成，越是与切身感受相关，越需要得到恰当的回应。对${scene.framing}给予关注，正是从身边小事出发，认真对待实际需要。\n\n${scene.framing}看似细微，却关乎日常体验。事情的分量，不只取决于表面大小，也取决于它在当事人生活中的实际位置。\n\n把目光投向日常，把关注落到具体，在一件件小事中体会生活的分量。这件事虽小，认真对待的态度值得保留。`:chosen;
+        const text=chosen;
         return {text,kind:'matched',scene:scene.id,name:scene.name,category:scene.category};
       }
       const variants=[`关于“${raw}”这一事项，有必要结合具体情况进一步研究，明确关注重点，做到有所思考、有所回应。`,`“${raw}”虽是日常小事，也值得认真对待。相关讨论应从实际出发，让表达有依据、关注有落点。`];

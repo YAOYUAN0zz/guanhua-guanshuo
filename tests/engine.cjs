@@ -1,5 +1,6 @@
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
+require('../article.js');
 const {create}=require('../engine.js');
 require('../corpus.js');
 const corpus=globalThis.CORPUS;
@@ -10,8 +11,20 @@ for(const [input,id] of cases)assert.equal(g(input).scene,id);
 for(const input of ['我不是不想洗碗','你不想洗碗吗','我已经洗完碗了','他说我不想洗碗','我不想洗碗，但是今天谁倒垃圾','手机已经充满电','我没到家','我到家了吗'])assert.equal(g(input).kind,'topic');
 assert.equal(g('').kind,'empty');assert.equal(g(' '.repeat(10)).kind,'empty');assert.equal(g('啊'.repeat(301)).kind,'limit');
 assert.equal(g('<img src=x onerror=alert(1)>').kind,'topic');
-assert.match(g('我不想洗碗',0,true).text,/从.*说起/);
+assert.match(g('我不想洗碗',0,true).text,/关于.*的思考/);
 assert.equal(g('我不想洗碗',2).text,g('我不想洗碗',0).text);
 assert.equal(g('今天下雨，我们改天再去吧。').scene,'SC74');
 assert.match(g('今天下雨，我们改天再去吧。').text,/建议/);
 console.log('通过：80场景与160表达、常用别名、否定与指代防误匹配、边界输入、轮换及展开。');
+
+for(const topic of ['洗碗','今天不想洗碗。','我不是不想洗碗','🌱','<img src=x onerror=alert(1)>']){
+ for(const size of [1000,3000,5000]){
+  const result=g(topic,0,true,size);
+  assert.ok(result.characters>=size,topic+': length too short');
+  assert.ok(result.characters<size+500,'length overshoot');
+  assert.equal(new Set(result.paragraphs).size,result.paragraphs.length,'duplicate paragraph');
+  assert.ok(result.text.includes(topic));
+ }
+}
+const first=g('洗碗',0,true),second=g('洗碗',0,true);assert.notEqual(first.text,second.text);
+console.log('长文通过：仅标题、已知/未知主题、否定主题、emoji、HTML字面文本均达到1000/3000/5000字；段落无完全重复、重新生成有变化。');
