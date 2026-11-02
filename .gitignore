@@ -1,0 +1,8 @@
+outputs/
+work/
+AGENTS.md
+.DS_Store
+.env
+.env.*
+node_modules/
+*.log

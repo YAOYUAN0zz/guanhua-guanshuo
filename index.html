@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="说件小事，认真表达。无需模型接口的官话官说趣味生成器。"><title>此事应当重视 · 官话官说</title><link rel="stylesheet" href="style.css"></head>
+<body>
+<header><a class="brand" href="./index.html" aria-label="返回首页"><span class="seal">重视</span><span>官话官说</span></a><span class="edition">日常事务观察室 <i>／</i> 第 001 期</span></header>
+<main>
+<section class="intro"><p class="eyebrow">小事，也有大文章。</p><h1>此事应当<span>重视</span><b>。</b></h1><p class="lead">说件小事，我替你重视。</p></section>
+<section class="workspace" aria-label="官话转换工具">
+<div class="input-pane"><div class="section-line"><label for="input"><span class="number">01</span> 事情是这样的</label><span id="count">0 / 300</span></div>
+<textarea id="input" maxlength="600" rows="5" placeholder="比如：我今天不想洗碗。" spellcheck="false" aria-describedby="input-help"></textarea>
+<div class="input-bottom"><span id="input-help">输入后自动转换，内容仅在本页处理</span><button id="clear" class="text-button" type="button">清空</button></div>
+<div class="examples"><span>从一件小事开始</span><div id="examples"></div></div></div>
+<div class="output-pane"><div class="section-line"><h2><span class="number">02</span> 官话官说</h2><span class="red-dot" id="status">等待来事</span></div>
+<div id="empty"><span class="empty-mark">阅</span><p>大小事情，均可提交。</p><small>先写一句，看看这事该怎么说。</small></div>
+<p id="result" hidden aria-live="polite" aria-atomic="true"></p>
+<div id="actions" hidden><p id="match-note" class="match-note"></p><div class="buttons"><button id="copy" class="primary" type="button">复制这段话 <span>↗</span></button><button id="another" class="secondary" type="button">换个说法 ↻</button><button id="expand" class="text-button" type="button">展开论述</button></div></div>
+</div></section>
+<section class="footnote"><p><span>使用须知</span> 内容仅供趣味表达，请勿当作真实通知或正式意见。</p><span>小题可以大做，生活不必较真。</span></section>
+</main><footer><span>官话官说 · 此事应当重视</span><span>本地句库版 <b>／</b> 无需登录</span></footer>
+<script src="corpus.js"></script><script src="engine.js"></script><script src="app.js"></script>
+</body></html>
